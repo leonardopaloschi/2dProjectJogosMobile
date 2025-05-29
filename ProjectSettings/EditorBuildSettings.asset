@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: bf0cee262a388984281fed4525d74d9d
+  - enabled: 1
+    path: Assets/Scenes/PlayerSelect.unity
+    guid: 6ed3a335d88f0044f81bd51949ccb78d
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 9aac8f23e8a19b74e9dededa2444accc
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Player.unity
+    guid: 4f82afae8df933146a7b78fb11b0aca8
+  - enabled: 1
+    path: Assets/Scenes/roomModels/inicial.unity
+    guid: 71c5e2e51a466d84396d869441315f17
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room01.unity
+    guid: be77a434ff493b74fb50dc66821e3b92
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room2.unity
+    guid: 847b8eb1552577745a25dfaae7f2c7ab
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room03.unity
+    guid: 77cae1877429eb34fb0fd1dd192463df
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room04.unity
+    guid: b5f09b3fc630945458b4ff6d4f40d9e0
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room05.unity
+    guid: 1068e5981c82eb74d91b4448f8041e1b
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room06.unity
+    guid: 78d08bdf4597ce4438412633ee6e41d7
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room07.unity
+    guid: 871963642b41a264e9f1ebad5165de67
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room08.unity
+    guid: 8ea3f85c48e7b9640ba17989dda62fd6
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room09.unity
+    guid: 6fe2e71aa72224c498011df321b8fb1f
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room10.unity
+    guid: faa6df91451107445957c0a929bd6e25
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room11.unity
+    guid: 1f84f54b8bc73404da25b55d8906f957
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room12.unity
+    guid: 77fd98aeae001fc4b87f80e660b0d48d
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room13.unity
+    guid: 49c079403f5db32468c4b858ddf73112
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room14.unity
+    guid: 1340e88ee27d0004ba51d70a676d672c
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room15.unity
+    guid: 98b138a5d710149429b4a51288569c4d
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room16.unity
+    guid: 3b928cdfad0aea24594113d32c5227f2
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room17.unity
+    guid: 86e6ee1031a0fbd41a89e733cc2c973e
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room18.unity
+    guid: a5c327ee6fc67074aa9281ece271e63c
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room19.unity
+    guid: 8d8fc34492475db45b1080bdce285851
+  - enabled: 1
+    path: Assets/Scenes/roomModels/room20.unity
+    guid: d828ebf83d7919f44aea5891bda4d245
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: a84e4df8e430bdd48aa8bc97d4251b42
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 7f85cab255827254fb9c758b0de95ac2
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_UseUCBPForAssetBundles: 0
