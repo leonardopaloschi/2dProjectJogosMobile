@@ -127,11 +127,9 @@ public class skeletonBossScript2 : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        Debug.Log("Taking damage: " + damage);
         if (isDead) return;
 
         health -= damage;
-        Debug.Log("Boss took damage: " + damage);
 
         if (health <= 0)
         {

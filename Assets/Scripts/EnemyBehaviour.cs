@@ -93,7 +93,6 @@ public class EnemyBehavior : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Raycast acertou: " + hit.collider.name);
             if (hit.collider.CompareTag("Player"))
             {
                 hit.collider.GetComponent<Health>().TomarDano(meleeDamage);
@@ -101,7 +100,7 @@ public class EnemyBehavior : MonoBehaviour
         }
         else
         {
-            Debug.Log("Raycast não acertou nada");
+            // Debug.Log("Raycast não acertou nada");
         }
     }
 
@@ -110,7 +109,6 @@ public class EnemyBehavior : MonoBehaviour
         anim.SetBool("attack", false);
         currentSpeed = maxSpeed;
         isAttacking = false;
-        Debug.Log("Passou aqui");
     }
 
     public void TakeDamage(int amount)
@@ -124,7 +122,6 @@ public class EnemyBehavior : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Inimigo morreu!");
 
         if (deathSound != null && audioSource != null)
             audioSource.PlayOneShot(deathSound);

@@ -50,7 +50,6 @@ public class skeletonBossScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("distanceFromPlayer: " + distanceFromPlayer);
         if (isDead)
         {
             return;
@@ -139,7 +138,6 @@ public class skeletonBossScript : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        Debug.Log("Boss took damage: " + damage);
         health -= damage;
         if (health <= 0)
         {

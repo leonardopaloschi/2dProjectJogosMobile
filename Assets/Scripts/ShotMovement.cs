@@ -35,7 +35,6 @@ public class ShotMovement : MonoBehaviour
         }
         if (collision.CompareTag("Boss"))
         {
-            Debug.Log("Hit a boss");
             // Tenta causar dano em qualquer tipo de boss existente
             skeletonBossScript boss1 = collision.gameObject.GetComponent<skeletonBossScript>();
             if (boss1 != null)

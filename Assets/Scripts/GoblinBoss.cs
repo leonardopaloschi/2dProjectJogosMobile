@@ -109,7 +109,6 @@ public class GoblinBoss : MonoBehaviour
         if (isDead) return;
 
         health -= damage;
-        Debug.Log("Boss took damage: " + damage);
 
         if (health <= 0)
         {
@@ -125,7 +124,6 @@ public class GoblinBoss : MonoBehaviour
 
     public void DisableCollider()
     {
-        Debug.Log("Disabling collider");
         if (bossCollider != null)
         {
             bossCollider.enabled = false;
@@ -134,7 +132,6 @@ public class GoblinBoss : MonoBehaviour
 
     public void EnableCollider()
     {
-        Debug.Log("Enabling collider");
         if (bossCollider != null)
         {
             bossCollider.enabled = true;

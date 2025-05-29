@@ -78,7 +78,6 @@ public class ZombieBehavior : EnemyBase
             Vector2 shootPosition = (Vector2)transform.position + lockedAttackDirection * 0.5f;
             GameObject proj = Instantiate(projectilePrefab, shootPosition, Quaternion.identity);
             SceneManager.MoveGameObjectToScene(proj, SceneManager.GetSceneAt(1));
-            Debug.Log("Criou proj�til");
 
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb != null)

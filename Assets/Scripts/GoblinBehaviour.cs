@@ -14,8 +14,6 @@ public class GoblinBehavior : EnemyBase
 
     protected override System.Collections.IEnumerator PerformDelayedAttack()
     {
-        // Debug.Log($"Inimigo {gameObject.name} executou ataque em {Time.time}");
-
         if (attackSound != null && audioSource != null)
             audioSource.PlayOneShot(attackSound);
 

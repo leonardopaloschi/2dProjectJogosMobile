@@ -77,7 +77,6 @@ public class chestScript : MonoBehaviour
                 {
                     Debug.LogError("Open sound not assigned.");
                 }
-                Debug.Log("Player interacted with the chest.");
                 animator.SetTrigger("open");
 
                 // Disable the collider to prevent further interactions
@@ -115,7 +114,6 @@ public class chestScript : MonoBehaviour
         {
             canOpen = true;
             canInteract = true;
-            Debug.Log("Player is in range to interact with the chest.");
 
             //enalble the "eKeyHover" game object
             if (eKeyHover != null)
@@ -124,7 +122,6 @@ public class chestScript : MonoBehaviour
             }
             else
             {
-                Debug.LogError("eKeyHover object not found in the scene.");
             }
         }
     }
@@ -142,7 +139,6 @@ public class chestScript : MonoBehaviour
                 {
                     Debug.LogError("Open sound not assigned.");
                 }
-                Debug.Log("Player interacted with the chest.");
                 animator.SetTrigger("open");
 
                 // Disable the collider to prevent further interactions
@@ -178,7 +174,6 @@ public class chestScript : MonoBehaviour
         {
             canOpen = false;
             canInteract = false;
-            Debug.Log("Player is out of range to interact with the chest.");
             // Disable the eKeyHover game object
             if (eKeyHover != null)
             {

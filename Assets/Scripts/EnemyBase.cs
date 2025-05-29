@@ -87,7 +87,6 @@ public abstract class EnemyBase : MonoBehaviour
     {   
         if (isAttacking) return;
         isAttacking=true;
-        Debug.Log($"AttackCaller chamado por {gameObject.name} em {Time.time}");
         StartCoroutine(PerformDelayedAttack());
     }
 

@@ -16,7 +16,6 @@ public class PlayerAttack : MonoBehaviour
         }
         else if (collision.CompareTag("Boss"))
         {
-            Debug.Log("Hit a boss");
             // Tenta causar dano em qualquer tipo de boss existente
             skeletonBossScript boss1 = collision.gameObject.GetComponent<skeletonBossScript>();
             if (boss1 != null)
@@ -41,7 +40,6 @@ public class PlayerAttack : MonoBehaviour
         }
         else if (collision.CompareTag("Breakable"))
         {
-            Debug.Log("Hit a breakable object");
             Breakable b = collision.gameObject.GetComponent<Breakable>();
             if (b != null)
             {
