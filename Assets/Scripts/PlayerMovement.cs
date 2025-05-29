@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
                     Health h = GetComponent<Health>();
                     h.healthPoints = h.maxHealthPoints;
-                    h.HandleMudarSlider(h.healthPoints);
+                    h.TomarDano(0);
 
                     Light2D l = GetComponentInChildren<Light2D>();
                     l.enabled = false;
