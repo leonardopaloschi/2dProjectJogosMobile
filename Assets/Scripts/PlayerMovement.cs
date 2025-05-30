@@ -45,42 +45,38 @@ public class PlayerMovement : MonoBehaviour
         lastInteraction = Time.time;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-
-        if (moveHorizontal == 0 && moveVertical == 0 && movement.x != 0 || movement.y != 0) {
-            lastMovement = movement;
-        }
-
-        movement = new(moveHorizontal, moveVertical);
-
         anim.SetFloat("speedX", movement.x);
         anim.SetFloat("speedY", movement.y);
         anim.SetFloat("moveMagnitude", movement.magnitude);
+
+        if (movement != Vector2.zero)
+        {
+            lastMovement = movement;
+        }
+
         anim.SetFloat("lastMoveX", lastMovement.x);
         anim.SetFloat("lastMoveY", lastMovement.y);
 
         rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * movement.normalized);
-
-        float attack = Input.GetAxisRaw("Fire1");
-        if (attack > 0 && Time.time - lastMeleeAtack > meleeAttackCooldown) {
-            lastMeleeAtack = Time.time;
-            Attack();
-        }
     }
 
-    void Update() {
-        float interact = Input.GetAxisRaw("Interact");
-        if (interact > 0 && Time.time - lastInteraction > interactCooldown)
+
+
+    public void SetMovement(Vector2 dir)
+    {
+        movement = dir;
+    }
+
+    public void TryInteract()
+    {
+        if (Time.time - lastInteraction > interactCooldown)
         {
             if (canUsePortalLobby)
             {
                 string sceneToLoad;
                 BossManager bm = GameObject.FindGameObjectWithTag("BossManager").GetComponent<BossManager>();
-
                 AudioSource musicmanagerAudioSource = GameObject.FindGameObjectWithTag("musicManager").GetComponent<AudioSource>();
 
                 if (SceneManager.GetSceneAt(1).name.Equals("Lobby"))
@@ -95,24 +91,11 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    // para a boss music presente no bm
-                    if (bm.bossMusicSource != null)
-                    {
-                        bm.bossMusicSource.Stop();
-                    }
-                    else
-                    {
-                        Debug.LogError("Boss music source not found.");
-                    }
-                    if (musicmanagerAudioSource != null)
-                    {
-                        musicmanagerAudioSource.Play();
-                    }
-                    else
-                    {
-                        Debug.LogError("Music manager audio source not found.");
-                    }
+                    if (bm.bossMusicSource != null) bm.bossMusicSource.Stop();
+                    else Debug.LogError("Boss music source not found.");
 
+                    if (musicmanagerAudioSource != null) musicmanagerAudioSource.Play();
+                    else Debug.LogError("Music manager audio source not found.");
 
                     sceneToLoad = "Lobby";
                     bm.boss1CanSpawn = false;
@@ -122,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
                     Health h = GetComponent<Health>();
                     h.healthPoints = h.maxHealthPoints;
-                    h.TomarDano(0);
+                    h.HandleMudarSlider(h.healthPoints);
 
                     Light2D l = GetComponentInChildren<Light2D>();
                     l.enabled = false;
@@ -140,53 +123,65 @@ public class PlayerMovement : MonoBehaviour
 
                 canUsePortalLobby = false;
             }
+
             lastInteraction = Time.time;
         }
     }
 
-    void Attack() {
+    public void Attack()
+    {
+        if (Time.time - lastMeleeAtack < meleeAttackCooldown) return;
+
+        lastMeleeAtack = Time.time;
         anim.SetTrigger("attack");
     }
 
-    void EnableAttackHitBox() {
+    void EnableAttackHitBox()
+    {
         speed = 0f;
-        Vector2 offset = new(0f, 0f);
+        Vector2 offset = Vector2.zero;
 
-        if (Math.Abs(movement.magnitude) > 0) {
-            if (movement.x > 0) {
-                offset = new(attackHitBoxOffset, 0f);
-                attackHitBox.transform.localScale = (Vector3) new(1, 2);
-            } else if (movement.x < 0) {
-                offset = new(-attackHitBoxOffset, 0f);
-                attackHitBox.transform.localScale = (Vector3) new(1, 2);
-            } else if (movement.y > 0) {
-                offset = new(0f, attackHitBoxOffset);
-                attackHitBox.transform.localScale = (Vector3) new(2, 1);
-            } else {
-                offset = new(0f, -attackHitBoxOffset);
-                attackHitBox.transform.localScale = (Vector3) new(2, 1);
+        if (movement != Vector2.zero)
+        {
+            if (movement.x > 0)
+            {
+                offset = new Vector2(attackHitBoxOffset, 0f);
+                attackHitBox.transform.localScale = new Vector3(1, 2);
             }
-        } else {
-            if (lastMovement.x > 0) {
-                offset = new(attackHitBoxOffset, 0f);
-                attackHitBox.transform.localScale = (Vector3) new(1, 2);
-            } else if (lastMovement.x < 0) {
-                offset = new(-attackHitBoxOffset, 0f);
-                attackHitBox.transform.localScale = (Vector3) new(1, 2);
-            } else if (lastMovement.y > 0) {
-                offset = new(0f, attackHitBoxOffset);
-                attackHitBox.transform.localScale = (Vector3) new(2, 1);
-            } else {
-                offset = new(0f, -attackHitBoxOffset);
-                attackHitBox.transform.localScale = (Vector3) new(2, 1);
+            else if (movement.x < 0)
+            {
+                offset = new Vector2(-attackHitBoxOffset, 0f);
+                attackHitBox.transform.localScale = new Vector3(1, 2);
+            }
+            else if (movement.y > 0)
+            {
+                offset = new Vector2(0f, attackHitBoxOffset);
+                attackHitBox.transform.localScale = new Vector3(2, 1);
+            }
+            else
+            {
+                offset = new Vector2(0f, -attackHitBoxOffset);
+                attackHitBox.transform.localScale = new Vector3(2, 1);
             }
         }
+        else
+        {
+            if (lastMovement.x > 0) offset = new Vector2(attackHitBoxOffset, 0f);
+            else if (lastMovement.x < 0) offset = new Vector2(-attackHitBoxOffset, 0f);
+            else if (lastMovement.y > 0) offset = new Vector2(0f, attackHitBoxOffset);
+            else offset = new Vector2(0f, -attackHitBoxOffset);
 
-        attackHitBox.transform.position = (Vector2) transform.position + offset;
+            attackHitBox.transform.localScale = (Mathf.Abs(lastMovement.x) > 0)
+                ? new Vector3(1, 2)
+                : new Vector3(2, 1);
+        }
+
+        attackHitBox.transform.position = (Vector2)transform.position + offset;
         attackHitBox.SetActive(true);
     }
 
-    void DisableAttackHitBox() {
+    void DisableAttackHitBox()
+    {
         attackHitBox.SetActive(false);
         speed = maxSpeed;
     }
@@ -205,13 +200,16 @@ public class PlayerMovement : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.CompareTag("PortalLobby")) {
+        if (other.CompareTag("PortalLobby"))
+        {
             canUsePortalLobby = true;
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        if (other.CompareTag("PortalLobby")) {
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("PortalLobby"))
+        {
             canUsePortalLobby = false;
         }
     }
