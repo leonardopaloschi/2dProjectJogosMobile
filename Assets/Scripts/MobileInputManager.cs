@@ -94,7 +94,7 @@ public class MobileInputManager : MonoBehaviour
     {
         Debug.Log("Bot�o de interagir pressionado.");
 
-        if (collectable != null && playerMovement != null)
+        if (playerMovement != null)
         {
             playerMovement.TryInteract();
         }

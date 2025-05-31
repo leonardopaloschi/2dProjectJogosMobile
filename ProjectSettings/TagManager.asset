@@ -20,6 +20,7 @@ TagManager:
   - audioinicial
   - musicManager
   - skipButton
+  - PowerUp
   layers:
   - Default
   - TransparentFX

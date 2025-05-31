@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Collectable : MonoBehaviour
@@ -16,60 +17,39 @@ public class Collectable : MonoBehaviour
 
     private GameObject player;
 
-    private bool canCollect = false;
-
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pu = player.GetComponent<PowerUp>();
     }
 
-    void Update()
+    public void Collect()
     {
-        if (Input.GetKeyDown(KeyCode.E) && canCollect)
+        pu.powerUpsAtivos[possibleCollectables[coletavelIndex]] = true;
+
+        if (possibleCollectables[coletavelIndex].Equals("isKnockbackActive"))
         {
-            pu.powerUpsAtivos[possibleCollectables[coletavelIndex]] = true;
-
-            if (possibleCollectables[coletavelIndex].Equals("isKnockbackActive"))
-            {
-                pu.ApplyKnockback();
-            }
-            else if (possibleCollectables[coletavelIndex].Equals("+0.5Speed"))
-            {
-                PlayerMovement pm = player.GetComponent<PlayerMovement>();
-                pm.maxSpeed += 0.5f;
-                pm.speed = pm.maxSpeed;
-            }
-            else if (possibleCollectables[coletavelIndex].Equals("+1Speed"))
-            {
-                PlayerMovement pm = player.GetComponent<PlayerMovement>();
-                pm.maxSpeed += 1;
-                pm.speed = pm.maxSpeed;
-            }
-            else if (possibleCollectables[coletavelIndex].Equals("+1.5Speed"))
-            {
-                PlayerMovement pm = player.GetComponent<PlayerMovement>();
-                pm.maxSpeed += 1.5f;
-                pm.speed = pm.maxSpeed;
-            }
-
-            Destroy(gameObject);
-        }       
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            canCollect = true;
+            pu.ApplyKnockback();
         }
-    }
-    
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        else if (possibleCollectables[coletavelIndex].Equals("+0.5Speed"))
         {
-            canCollect = false;
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+            pm.maxSpeed += 0.5f;
+            pm.speed = pm.maxSpeed;
         }
+        else if (possibleCollectables[coletavelIndex].Equals("+1Speed"))
+        {
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+            pm.maxSpeed += 1;
+            pm.speed = pm.maxSpeed;
+        }
+        else if (possibleCollectables[coletavelIndex].Equals("+1.5Speed"))
+        {
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+            pm.maxSpeed += 1.5f;
+            pm.speed = pm.maxSpeed;
+        }
+
+        Destroy(gameObject);
     }
 }

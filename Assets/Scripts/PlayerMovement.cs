@@ -26,8 +26,12 @@ public class PlayerMovement : MonoBehaviour
     private float interactCooldown = 1f;
     private float lastInteraction;
     public bool canUsePortalLobby = false;
+    public bool canInteract = false;
+    private GameObject coletavel;
 
-    [SerializeField] private InputActionReference inputActionReference;
+    [SerializeField] private InputActionReference moveInput;
+    [SerializeField] private InputActionReference attackInput;
+    [SerializeField] private InputActionReference interactInput;
 
     void Awake()
     {
@@ -50,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        movement = inputActionReference.action.ReadValue<Vector2>();
+        movement = moveInput.action.ReadValue<Vector2>();
 
         anim.SetFloat("speedX", movement.x);
         anim.SetFloat("speedY", movement.y);
@@ -65,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("lastMoveY", lastMovement.y);
 
         rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * movement.normalized);
+
+        if (Time.time - lastInteraction > interactCooldown && interactInput.action.ReadValue<float>() > 0)
+        {
+            TryInteract();
+        }
     }
 
 
@@ -76,61 +85,62 @@ public class PlayerMovement : MonoBehaviour
 
     public void TryInteract()
     {
-        if (Time.time - lastInteraction > interactCooldown)
+        if (canUsePortalLobby)
         {
-            if (canUsePortalLobby)
+            string sceneToLoad;
+            BossManager bm = GameObject.FindGameObjectWithTag("BossManager").GetComponent<BossManager>();
+            AudioSource musicmanagerAudioSource = GameObject.FindGameObjectWithTag("musicManager").GetComponent<AudioSource>();
+
+            if (SceneManager.GetSceneAt(1).name.Equals("Lobby"))
             {
-                string sceneToLoad;
-                BossManager bm = GameObject.FindGameObjectWithTag("BossManager").GetComponent<BossManager>();
-                AudioSource musicmanagerAudioSource = GameObject.FindGameObjectWithTag("musicManager").GetComponent<AudioSource>();
+                sceneToLoad = "inicial";
+                bm.boss1CanSpawn = true;
+                bm.timePassed = Time.time;
+                bm.imageToChange.GetComponent<Image>().sprite = bm.bossAproachingIcon0quarto;
 
-                if (SceneManager.GetSceneAt(1).name.Equals("Lobby"))
-                {
-                    sceneToLoad = "inicial";
-                    bm.boss1CanSpawn = true;
-                    bm.timePassed = Time.time;
-                    bm.imageToChange.GetComponent<Image>().sprite = bm.bossAproachingIcon0quarto;
+                Light2D l = GetComponentInChildren<Light2D>();
+                l.enabled = true;
+            }
+            else
+            {
+                if (bm.bossMusicSource != null) bm.bossMusicSource.Stop();
+                else Debug.LogError("Boss music source not found.");
 
-                    Light2D l = GetComponentInChildren<Light2D>();
-                    l.enabled = true;
-                }
-                else
-                {
-                    if (bm.bossMusicSource != null) bm.bossMusicSource.Stop();
-                    else Debug.LogError("Boss music source not found.");
+                if (musicmanagerAudioSource != null) musicmanagerAudioSource.Play();
+                else Debug.LogError("Music manager audio source not found.");
 
-                    if (musicmanagerAudioSource != null) musicmanagerAudioSource.Play();
-                    else Debug.LogError("Music manager audio source not found.");
+                sceneToLoad = "Lobby";
+                bm.boss1CanSpawn = false;
+                bm.timePassed = Time.time;
+                bm.bossesKilled += 1;
+                bm.imageToChange.GetComponent<Image>().sprite = bm.bossAproachingIcon0quarto;
 
-                    sceneToLoad = "Lobby";
-                    bm.boss1CanSpawn = false;
-                    bm.timePassed = Time.time;
-                    bm.bossesKilled += 1;
-                    bm.imageToChange.GetComponent<Image>().sprite = bm.bossAproachingIcon0quarto;
+                Health h = GetComponent<Health>();
+                h.healthPoints = h.maxHealthPoints;
+                h.HandleMudarSlider(h.healthPoints);
 
-                    Health h = GetComponent<Health>();
-                    h.healthPoints = h.maxHealthPoints;
-                    h.HandleMudarSlider(h.healthPoints);
-
-                    Light2D l = GetComponentInChildren<Light2D>();
-                    l.enabled = false;
-                }
-
-                if (bm.bossesKilled == 3)
-                {
-                    SceneManager.LoadSceneAsync("WinScreen");
-                }
-                else
-                {
-                    SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1).name);
-                    SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
-                }
-
-                canUsePortalLobby = false;
+                Light2D l = GetComponentInChildren<Light2D>();
+                l.enabled = false;
             }
 
-            lastInteraction = Time.time;
+            if (bm.bossesKilled == 3)
+            {
+                SceneManager.LoadSceneAsync("WinScreen");
+            }
+            else
+            {
+                SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1).name);
+                SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+            }
+
+            canUsePortalLobby = false;
         }
+        else if (canInteract)
+        {
+            coletavel?.GetComponent<Collectable>().Collect();
+        }
+
+        lastInteraction = Time.time;
     }
 
     public void Attack()
@@ -138,7 +148,6 @@ public class PlayerMovement : MonoBehaviour
         if (Time.time - lastMeleeAtack < meleeAttackCooldown) return;
 
         lastMeleeAtack = Time.time;
-        Debug.Log(anim);
         anim.SetTrigger("attack");
     }
 
@@ -210,13 +219,23 @@ public class PlayerMovement : MonoBehaviour
         {
             canUsePortalLobby = true;
         }
+        else if (other.CompareTag("PowerUp"))
+        {
+            canInteract = true;
+            coletavel = other.gameObject;
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("PortalLobby"))
         {
             canUsePortalLobby = false;
+        }
+        else if (other.CompareTag("PowerUp"))
+        {
+            canInteract = false;
+            coletavel = null;
         }
     }
 }

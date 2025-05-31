@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7042481715620257704}
   m_Layer: 0
   m_Name: PowerUp
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   - +1Speed
   - +1.5Speed
   coletavelIndex: 0
+  interactInput: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!61 &-7042481715620257704
 BoxCollider2D:
   m_ObjectHideFlags: 0
