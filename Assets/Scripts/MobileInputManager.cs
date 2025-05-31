@@ -1,4 +1,4 @@
-// MobileInputManager.cs — atualizado para exibir controles SOMENTE na cena "Player" e quando pauseMenu está desativado
+// MobileInputManager.cs ï¿½ atualizado para exibir controles SOMENTE na cena "Player" e quando pauseMenu estï¿½ desativado
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -20,6 +20,7 @@ public class MobileInputManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();   
     }
 
     private void OnDisable()
@@ -48,7 +49,7 @@ public class MobileInputManager : MonoBehaviour
     {
         string sceneName = SceneManager.GetActiveScene().name;
 
-        // Só ativa se estiver na cena Player e pauseMenu estiver inativo
+        // Sï¿½ ativa se estiver na cena Player e pauseMenu estiver inativo
         if (sceneName == "Player" && (pauseMenu == null || !pauseMenu.activeSelf))
         {
             ToggleMobileControls(true);
@@ -73,11 +74,13 @@ public class MobileInputManager : MonoBehaviour
 
     public void OnAttackButtonPressed()
     {
-        Debug.Log("Botão de ataque pressionado.");
+        Debug.Log("Botï¿½o de ataque pressionado.");
 
+        Debug.Log(playerMovement);
         if (playerMovement != null)
         {
-            playerMovement.SendMessage("Attack", SendMessageOptions.DontRequireReceiver);
+            Debug.Log("AAAAAAA");
+            playerMovement.Attack();
         }
 
         if (skeletonAttack != null)
@@ -89,7 +92,7 @@ public class MobileInputManager : MonoBehaviour
 
     public void OnInteractButtonPressed()
     {
-        Debug.Log("Botão de interagir pressionado.");
+        Debug.Log("Botï¿½o de interagir pressionado.");
 
         if (collectable != null && playerMovement != null)
         {

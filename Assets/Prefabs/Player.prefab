@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc65f10525a7814eb22470ca425f052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 734159888288710151}
   movement: {x: 0, y: 0}
   lastMovement: {x: 0, y: 0}
   maxSpeed: 5
@@ -200,6 +201,7 @@ MonoBehaviour:
   attackHitBox: {fileID: 4284526654412049305}
   attackHitBoxOffset: 1
   canUsePortalLobby: 0
+  inputActionReference: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &3605764178983900906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +219,7 @@ MonoBehaviour:
   healthTxt: {fileID: 0}
   slider: {fileID: 0}
   gameOverPanel: {fileID: 0}
+  am: {fileID: 0}
   isKnockbackActive: 0
   knockbackAmount: 0
 --- !u!114 &7893884206576603872

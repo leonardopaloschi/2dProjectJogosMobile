@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private Animator anim;
+    [SerializeField] private Animator anim;
     public Vector2 movement;
     public Vector2 lastMovement;
     [SerializeField] public float maxSpeed = 5f;
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastInteraction;
     public bool canUsePortalLobby = false;
 
+    [SerializeField] private InputActionReference inputActionReference;
+
     void Awake()
     {
         roomManager = GameObject.FindGameObjectWithTag("RoomManager");
@@ -34,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        // anim = GetComponent<Animator>();
         Health h = GetComponent<Health>();
         h.slider = GameObject.FindGameObjectWithTag("SliderVidaUI").GetComponent<Slider>();
         h.healthTxt = GameObject.FindGameObjectWithTag("TextoVidaUI").GetComponent<TMP_Text>();
@@ -47,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        movement = inputActionReference.action.ReadValue<Vector2>();
+
         anim.SetFloat("speedX", movement.x);
         anim.SetFloat("speedY", movement.y);
         anim.SetFloat("moveMagnitude", movement.magnitude);
@@ -133,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
         if (Time.time - lastMeleeAtack < meleeAttackCooldown) return;
 
         lastMeleeAtack = Time.time;
+        Debug.Log(anim);
         anim.SetTrigger("attack");
     }
 
