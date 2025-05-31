@@ -25,35 +25,41 @@ public class PlayerSkeletonAttack : MonoBehaviour
             }
         }
 
-        Quaternion attackRotation = Quaternion.identity;
-        if (attackDir.Equals(Vector2.left))
+        // Quaternion attackRotation = Quaternion.identity;
+        // if (attackDir.Equals(Vector2.left))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 180f));
+        // }
+        // else if (attackDir.Equals(Vector2.down))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 270f));
+        // }
+        // else if (attackDir.Equals(Vector2.up))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 90f));
+        // }
+        // else if (attackDir.Equals(Vector2.one))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 45f));
+        // }
+        // else if (attackDir.Equals(-Vector2.one))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 225f));
+        // }
+        // else if (attackDir.Equals(new Vector2(-1, 1)))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 135f));
+        // }
+        // else if (attackDir.Equals(new Vector2(1, -1)))
+        // {
+        //     attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 315f));
+        // }
+        float angulo = Vector3.Angle(Vector3.right, attackDir);
+        if (attackDir.y < 0)
         {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 180f));
+            angulo = 360f - angulo;
         }
-        else if (attackDir.Equals(Vector2.down))
-        {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 270f));
-        }
-        else if (attackDir.Equals(Vector2.up))
-        {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 90f));
-        }
-        else if (attackDir.Equals(Vector2.one))
-        {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 45f));
-        }
-        else if (attackDir.Equals(-Vector2.one))
-        {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 225f));
-        }
-        else if (attackDir.Equals(new Vector2(-1, 1)))
-        {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 135f));
-        }
-        else if (attackDir.Equals(new Vector2(1, -1)))
-        {
-            attackRotation = Quaternion.Euler(new Vector3(0f, 0f, 315f));
-        }
+        Quaternion attackRotation = Quaternion.Euler(new Vector3(0f, 0f, angulo));
 
         GameObject arrow = Instantiate(arrowPrefab, transform.position, attackRotation);
         arrow.GetComponent<ShotMovement>().moveDir = attackDir;

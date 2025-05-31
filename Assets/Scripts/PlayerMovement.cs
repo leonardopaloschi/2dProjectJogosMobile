@@ -72,14 +72,19 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("lastMoveY", lastMovement.y);
 
         rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * movement.normalized);
+    }
 
+    void Update()
+    {
         if (Time.time - lastInteraction > interactCooldown && interactInput.action.ReadValue<float>() > 0)
         {
             TryInteract();
         }
+        if (Time.time - lastMeleeAtack > meleeAttackCooldown && attackInput.action.ReadValue<float>() > 0)
+        {
+            Attack();
+        }       
     }
-
-
 
     public void SetMovement(Vector2 dir)
     {
