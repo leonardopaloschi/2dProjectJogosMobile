@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -1056680899537175303}
   - component: {fileID: 5662843207338942547}
   - component: {fileID: -6785472891421104744}
+  - component: {fileID: 8206587659492959246}
   m_Layer: 3
   m_Name: PlayerSkeleton
   m_TagString: Player
@@ -196,6 +197,8 @@ MonoBehaviour:
   attackHitBox: {fileID: 0}
   attackHitBoxOffset: 1
   canUsePortalLobby: 0
+  canInteract: 0
+  canOpen: 0
   moveInput: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   attackInput: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   interactInput: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
@@ -351,6 +354,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8206587659492959246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2649914838973057363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8de293e433ff04397af7c628ba896b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotPrefab: {fileID: 1324332179881388809, guid: 13b78996c398dcd4b976dc59bb09269b, type: 3}
+  automaticShotCooldown: 0.5
+  knockbackAmount: 1
 --- !u!1 &9101373043199535116
 GameObject:
   m_ObjectHideFlags: 0
