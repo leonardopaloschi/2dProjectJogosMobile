@@ -62,50 +62,43 @@ public class chestScript : MonoBehaviour
         };
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Open()
     {
-        if (canOpen)
+        if (openSound != null)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (openSound != null)
-                {
-                    openSound.Play();
-                }
-                else
-                {
-                    Debug.LogError("Open sound not assigned.");
-                }
-                animator.SetTrigger("open");
-
-                // Disable the collider to prevent further interactions
-                interactionRange.enabled = false;
-
-                // Disable the eKeyHover game object
-                if (eKeyHover != null)
-                {
-                    eKeyHover.SetActive(false);
-                    Destroy(eKeyHover);
-                }
-                else
-                {
-                    Debug.LogError("eKeyHover object not found in the scene.");
-                }
-
-                GameObject powerUp = Instantiate(powerUpPrefab, new Vector2(transform.position.x, transform.position.y - 1f), Quaternion.identity);
-                SceneManager.MoveGameObjectToScene(powerUp, SceneManager.GetSceneAt(1));
-                Collectable powerUpScript = powerUp.GetComponent<Collectable>();
-                powerUpScript.coletavelIndex = Random.Range(0, powerUpScript.possibleCollectables.Count);
-                powerUp.GetComponent<SpriteRenderer>().sprite = possibleCollectablesImages[powerUpScript.coletavelIndex];
-                if (powerUpScript.coletavelIndex == 4)
-                {
-                    powerUp.GetComponent<SpriteRenderer>().color = new Color(0f, 205f, 253f, 255f);
-                }
-
-                StartCoroutine(MarkAsRemovedLater());
-            }
+            openSound.Play();
         }
+        else
+        {
+            Debug.LogError("Open sound not assigned.");
+        }
+        animator.SetTrigger("open");
+
+        // Disable the collider to prevent further interactions
+        interactionRange.enabled = false;
+
+        // Disable the eKeyHover game object
+        if (eKeyHover != null)
+        {
+            eKeyHover.SetActive(false);
+            Destroy(eKeyHover);
+        }
+        else
+        {
+            Debug.LogError("eKeyHover object not found in the scene.");
+        }
+
+        GameObject powerUp = Instantiate(powerUpPrefab, new Vector2(transform.position.x, transform.position.y - 1f), Quaternion.identity);
+        SceneManager.MoveGameObjectToScene(powerUp, SceneManager.GetSceneAt(1));
+        Collectable powerUpScript = powerUp.GetComponent<Collectable>();
+        powerUpScript.coletavelIndex = Random.Range(0, powerUpScript.possibleCollectables.Count);
+        powerUp.GetComponent<SpriteRenderer>().sprite = possibleCollectablesImages[powerUpScript.coletavelIndex];
+        if (powerUpScript.coletavelIndex == 4)
+        {
+            powerUp.GetComponent<SpriteRenderer>().color = new Color(0f, 205f, 253f, 255f);
+        }
+
+        StartCoroutine(MarkAsRemovedLater());
     }
 
     private void OnTriggerEnter2D(Collider2D other)

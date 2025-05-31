@@ -29,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
     public bool canInteract = false;
     private GameObject coletavel;
 
+    public bool canOpen = false;
+    private GameObject chest;
+
     [SerializeField] private InputActionReference moveInput;
     [SerializeField] private InputActionReference attackInput;
     [SerializeField] private InputActionReference interactInput;
@@ -139,6 +142,10 @@ public class PlayerMovement : MonoBehaviour
         {
             coletavel?.GetComponent<Collectable>().Collect();
         }
+        else if (canOpen)
+        {
+            chest?.GetComponent<chestScript>().Open();
+        }
 
         lastInteraction = Time.time;
     }
@@ -224,6 +231,11 @@ public class PlayerMovement : MonoBehaviour
             canInteract = true;
             coletavel = other.gameObject;
         }
+        else if (other.CompareTag("Chest"))
+        {
+            canOpen = true;
+            chest = other.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -236,6 +248,11 @@ public class PlayerMovement : MonoBehaviour
         {
             canInteract = false;
             coletavel = null;
+        }
+        else if (other.CompareTag("Chest"))
+        {
+            canOpen = false;
+            chest = null;
         }
     }
 }

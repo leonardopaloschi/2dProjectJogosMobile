@@ -21,6 +21,7 @@ TagManager:
   - musicManager
   - skipButton
   - PowerUp
+  - Chest
   layers:
   - Default
   - TransparentFX
