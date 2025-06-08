@@ -941,7 +941,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1999789091}
         m_TargetAssemblyTypeName: adManager, Assembly-CSharp
-        m_MethodName: ShowAd
+        m_MethodName: ShowhAd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2800,7 +2800,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1999789091}
         m_TargetAssemblyTypeName: adManager, Assembly-CSharp
-        m_MethodName: skipAd
+        m_MethodName: attemptGameOver
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

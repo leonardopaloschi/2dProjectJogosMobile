@@ -10,8 +10,11 @@ public class Health : MonoBehaviour
     public TMP_Text healthTxt;
     public Slider slider;
     public GameObject gameOverPanel;
+    private bool canTakeDamage = true;
 
     public adManager am;
+
+    
 
     void Awake()
     {
@@ -33,6 +36,19 @@ public class Health : MonoBehaviour
     void Start()
     {
         healthPoints = maxHealthPoints;
+    }
+
+    public void ResetHealth()
+    {
+        
+        healthPoints = maxHealthPoints;
+        HandleMudarSlider(healthPoints);
+        slider.value = healthPoints;
+        canTakeDamage = true;
+        damageCooldown = 1f; // Reset cooldown when health is reset
+        
+
+
     }
 
     void Update()
@@ -57,19 +73,27 @@ public class Health : MonoBehaviour
 
     public void TomarDano(float dano)
     {
-        if (damageCooldown == 0)
+        Debug.Log("Tomando dano: " + dano);
+        Debug.Log("vida atual: " + healthPoints);
+        if (damageCooldown == 0 && canTakeDamage)
         {
             healthPoints -= dano;
 
             if (healthPoints <= 0)
             {
+                healthPoints = 0;
                 //SceneManager.LoadSceneAsync("GameOver");
                 am.startPreAd();
+                canTakeDamage = false;
+            }
+            else
+            {
+                HandleMudarSlider(healthPoints);
+                slider.value = healthPoints;
+                damageCooldown = 1f;
             }
 
-            HandleMudarSlider(healthPoints);
-            slider.value = healthPoints;
-            damageCooldown = 1f;
+
         }
 
     }

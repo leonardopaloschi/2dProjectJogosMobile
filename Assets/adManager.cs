@@ -7,79 +7,64 @@ public class adManager : MonoBehaviour
     public GameObject adPanel;
     public GameObject preAdPanel;
     private bool watchAd = false;
-
     private bool hasWatched = false;
-
     public Health playerHealth;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool isPreAdActive = false;
+
     void Start()
     {
-
+        // Inicializa o painel de anúncio e o painel pré-anúncio
+        adPanel.SetActive(false);
+        preAdPanel.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (isPreAdActive)
+        {
+            //
+        }
 
     }
 
     public void startPreAd()
     {
-        if (!hasWatched)
+        preAdPanel.SetActive(true);
+        isPreAdActive = true;
+    }
+
+    public void ShowhAd()
+    {
+        if (isPreAdActive)
         {
-            preAdPanel.SetActive(true);
-
-            StartCoroutine("WaitAndSkip");
-
+            preAdPanel.SetActive(false);
+            adPanel.SetActive(true);
             hasWatched = true;
+            isPreAdActive = false;
         }
-        else
-        {
-            SceneManager.LoadSceneAsync("GameOver");
-        }
+        StopCoroutine(waitForWatch());
+        StartCoroutine(waitForWatch());
     }
 
-    IEnumerator WaitAndSkip()
-    {
-        yield return new WaitForSeconds(10f);
-        if (!watchAd)
-        {
-            SceneManager.LoadSceneAsync("GameOver");
-        }
-    }
-
-    public void ShowAd()
-    {
-        watchAd = true;
-
-        adPanel.SetActive(true);
-
-        preAdPanel.SetActive(false);
-
-        StartCoroutine("WaitToAllowSkipping");
-    }
-
-    IEnumerator WaitToAllowSkipping()
+    IEnumerator waitForWatch()
     {
         yield return new WaitForSeconds(5f);
-        GameObject skipButton = GameObject.FindGameObjectWithTag("skipButton");
-        if (skipButton != null)
+        attemptGameOver();
+    }
+    
+    public void attemptGameOver()
+    {
+        if (hasWatched)
         {
-            skipButton.SetActive(true);
+            playerHealth.ResetHealth();
+            preAdPanel.SetActive(false);
+            adPanel.SetActive(false);
         }
         else
         {
-            adPanel.SetActive(false);
+            SceneManager.LoadScene("GameOver");
         }
+        
     }
-
-    public void skipAd()
-    {
-        adPanel.SetActive(false);
-        preAdPanel.SetActive(false);
-        playerHealth.healthPoints = playerHealth.maxHealthPoints;
-        playerHealth.HandleMudarSlider(playerHealth.healthPoints);
-    }
-
 }
